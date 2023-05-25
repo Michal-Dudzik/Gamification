@@ -1,4 +1,4 @@
-* {
+/* * {
 	margin: 0;
 	padding: 0;
 }
@@ -26,8 +26,81 @@ body {
 
 #canvas {
 	z-index: -1;
+	scale: 0.8;
+	transform: translate(-62%, -62%);
 }
 
 #arcade {
-	width: 80%;
+	width: 65%;
+} */
+/* /////////////////////////////////////////////// */
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-color: #00222f;
+}
+
+#animate {
+	position: absolute;
+	top: 95%;
+	left: 45%;
+	transform: translate(-50%, -10%);
+	width: 100px;
+	height: 50px;
+}
+
+#back {
+	position: absolute;
+	top: 95%;
+	left: 55%;
+	transform: translate(-50%, -10%);
+	width: 100px;
+	height: 50px;
+}
+
+#corridor {
+	position: relative;
+	width: 100%;
+	height: 100vh;
+	perspective: 1000px;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#machine,
+#background {
+	transition: transform 2s;
+	transition-timing-function: ease-in-out;
+}
+
+/* Position of elements */
+#background {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+}
+
+#machine {
+	scale: 0.04;
+	z-index: 1;
+}
+
+/* Animations */
+.move-out {
+	transform: translate3d(0px, 0px, 1000px);
+}
+
+.move-out-machine {
+	transform: translate3d(0px, 690px, 940px);
+}
+
+.blur {
+	filter: blur(1px);
 }
