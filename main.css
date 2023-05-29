@@ -1,40 +1,3 @@
-/* * {
-	margin: 0;
-	padding: 0;
-}
-
-body {
-	background-color: rgb(44, 47, 64);
-	overflow: hidden;
-}
-
-.container {
-	position: relative;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-}
-
-.container img,
-.container canvas {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-}
-
-#canvas {
-	z-index: -1;
-	scale: 0.8;
-	transform: translate(-62%, -62%);
-}
-
-#arcade {
-	width: 65%;
-} */
-/* /////////////////////////////////////////////// */
-
 * {
 	margin: 0;
 	padding: 0;
@@ -92,13 +55,25 @@ body {
 	z-index: 1;
 }
 
+#game {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -58%);
+	z-index: 2;
+}
+
 /* Animations */
 .move-out {
 	transform: translate3d(0px, 0px, 1000px);
 }
 
 .move-out-machine {
-	transform: translate3d(0px, 690px, 940px);
+	transform: translate3d(0px, 650px, 949px);
+}
+
+.hide {
+	opacity: 0;
 }
 
 .blur {

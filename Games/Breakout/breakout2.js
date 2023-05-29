@@ -5,16 +5,19 @@ class Breakout extends Phaser.Scene {
 		this.bricks;
 		this.paddle;
 		this.balls;
+
 		this.lives = 3;
+		this.score = 0;
+		this.startTime = 0;
+
 		this.gameOver = false;
 		this.ballSpeedBoostActive = false;
 		this.multiBallActive = false;
+
 		this.startText;
 		this.gameOverText;
 		this.pressToRestartText;
-		this.score = 0;
 		this.scoreText;
-		this.startTime = 0;
 	}
 
 	preload() {
@@ -73,19 +76,6 @@ class Breakout extends Phaser.Scene {
 			.setCollideWorldBounds(true)
 			.setBounce(1);
 		this.ball.setData('onPaddle', true);
-
-		// this.balls = this.physics.add.group({
-		// 	key: 'ball',
-		// 	repeat: 0,
-		// 	setXY: { x: 400, y: 500, stepX: 0, stepY: 0 },
-		// 	bounceX: 1,
-		// 	bounceY: 1,
-		// 	collideWorldBounds: true,
-		// });
-
-		// this.balls.children.iterate((ball) => {
-		// 	ball.setData('onPaddle', true);
-		// });
 
 		this.paddle = this.physics.add.image(400, 550, 'paddle').setImmovable();
 
@@ -430,4 +420,3 @@ function handleBonus1() {
 function handleBonus2() {
 	activateMultiBall();
 }
-///////////////////////////////////////////////////////////////
