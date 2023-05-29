@@ -49,27 +49,49 @@ class MainScene extends Phaser.Scene {
 	constructor() {
 		super({ key: 'MainScene' });
 
+		this.gameWidth = 800;
+		this.gameHeight = 600;
+
 		this.bricks;
-		this.paddle;
-		this.ball;
 		this.brickWidth = 64;
 		this.brickHeight = 32;
 		this.brickSpacing = 10;
-		this.brickColors = ['blue', 'red', 'green', 'yellow', 'silver', 'purple'];
 		this.brickTimer;
 		this.bricksDestroyed = 0;
+		this.brickColors = ['blue', 'red', 'green', 'yellow', 'silver', 'purple'];
+
+		this.paddle;
+		this.ball;
+
 		this.lifes = 3;
 		this.score = 0;
 		this.startTime = 0;
 		this.gameOver = false;
 		this.scoreText;
+
 		this.livesSprites = [];
+		this.heartSpacing = 30; // Spacing between hearts
+		this.heartX = this.gameWidth - 70; // X position of the first heart
+		this.heartY = 10; // Y position of the hearts
 	}
 
 	create() {
+		// dirty way to fix issue with game not restarting
+		// TODO: find a better way to fix this
+		// TODO: there is a bug where if you click when ball is about to fall it will restart the game
+		// TODO: after restart lives are not decreasing
+
+		this.bricks = this.physics.add.group();
+		this.bricksDestroyed = 0;
+		this.lifes = 3;
+		this.score = 0;
+		this.startTime = 0;
+		this.gameOver = false;
+
 		//  Enable world bounds, but disable the floor
 		this.physics.world.setBoundsCollision(true, true, true, false);
 
+		// create ball and paddle
 		this.ball = this.physics.add
 			.image(400, 500, 'ball')
 			.setCollideWorldBounds(true)
@@ -85,13 +107,9 @@ class MainScene extends Phaser.Scene {
 		});
 
 		// display lives
-		const heartSpacing = 30; // Spacing between hearts
-		const heartX = this.sys.game.config.width - 70; // X position of the first heart
-		const heartY = 10; // Y position of the hearts
-
 		for (let i = 0; i < this.lifes; i++) {
 			let heart = this.add
-				.image(heartX + i * heartSpacing, heartY, 'heart')
+				.image(this.heartX + i * this.heartSpacing, this.heartY, 'heart')
 				.setOrigin(1, 0);
 			heart.setScale(0.055);
 			this.livesSprites.push(heart);
@@ -171,9 +189,7 @@ class MainScene extends Phaser.Scene {
 		}
 
 		const xStartPosition =
-			(this.sys.game.config.width -
-				(this.brickWidth + this.brickSpacing) * 10) /
-			2;
+			(this.gameWidth - (this.brickWidth + this.brickSpacing) * 10) / 2;
 		const brickCount = Phaser.Math.Between(1, 8); // Random number of bricks in each row
 
 		const brickPositions = Phaser.Utils.Array.NumberArray(0, 10); // Array of positions for bricks
@@ -204,7 +220,7 @@ class MainScene extends Phaser.Scene {
 		if (!this.gameOver) {
 			this.brickTimer = this.time.addEvent({
 				delay: 5000,
-				callback: this.generateBricksRow,
+				callback: () => this.generateBricksRow(),
 				callbackScope: this,
 				loop: false,
 			});
@@ -240,14 +256,6 @@ class MainScene extends Phaser.Scene {
 		}
 	}
 
-	resetLevel() {
-		this.resetBall();
-
-		this.bricks.children.each((brick) => {
-			brick.enableBody(false, 0, 0, true, true);
-		});
-	}
-
 	hitPaddle(ball, paddle) {
 		let diff = 0;
 
@@ -272,10 +280,6 @@ class MainScene extends Phaser.Scene {
 			bricksDestroyed: this.bricksDestroyed, // assuming you count this somewhere in your code
 			time: Math.floor((this.time.now - this.startTime) / 1000),
 		});
-	}
-
-	restartGame() {
-		this.scene.restart();
 	}
 }
 
